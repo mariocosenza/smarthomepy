@@ -30,6 +30,6 @@ class TestSmartRoom(unittest.TestCase):
     def test_check_enough_light_bright(self, mock_input: Mock):
         mock_input.return_value = True
         smart = SmartRoom()
-        occupied = smart.check_room_occupancy()
+        occupied = smart.check_enough_light()
         mock_input.assert_called_once_with(SmartRoom.PHOTO_PIN)
         self.assertTrue(occupied)
