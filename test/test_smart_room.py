@@ -33,3 +33,11 @@ class TestSmartRoom(unittest.TestCase):
         occupied = smart.check_enough_light()
         mock_input.assert_called_once_with(SmartRoom.PHOTO_PIN)
         self.assertTrue(occupied)
+
+    @patch.object(GPIO, "input")
+    def test_check_enough_light_dark(self, mock_input: Mock):
+        mock_input.return_value = False
+        smart = SmartRoom()
+        occupied = smart.check_enough_light()
+        mock_input.assert_called_once_with(SmartRoom.PHOTO_PIN)
+        self.assertFalse(occupied)
