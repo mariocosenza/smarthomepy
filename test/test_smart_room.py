@@ -65,3 +65,15 @@ class TestSmartRoom(unittest.TestCase):
         smart.manage_light_level()
         output.assert_called_once_with(SmartRoom.LED_PIN, False)
         self.assertFalse(smart.light_on)
+
+    @patch.object(Adafruit_BMP280_I2C, "temperature", new_callable=PropertyMock)
+    @patch.object(Adafruit_BMP280_I2C, "temperature", new_callable=PropertyMock)
+    @patch.object(SmartRoom, "change_servo_angle")
+    def test_manage_window_open_window_between_18_30_with_indoor_temperature_lower_than_outside_minus_two(self, indoor: Mock, outdoor: Mock, servo_angle: Mock):
+        smart = SmartRoom()
+        indoor.return_value = 18
+        outdoor.return_value = 21
+        smart.window_open = False
+        smart.manage_window()
+        servo_angle.assert_called_once_with(2)
+        self.assertTrue(smart.window_open)
